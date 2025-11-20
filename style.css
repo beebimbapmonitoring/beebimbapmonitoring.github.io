@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  background: #111;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 2.5em;
+  color: #F6A623;
+}
+
+header p {
+  font-size: 1.1em;
+  color: #ccc;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.card {
+  min-width: 180px;
+  flex: 0 0 auto;
+  background: #222;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background: #333;
+}
+
+.bee {
+  font-size: 3em;
+  margin-bottom: 15px;
+  transition: transform 0.3s;
+}
+
+.card:hover .bee {
+  transform: translateY(-5px);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  color: #F6A623;
+}
+
+.card p {
+  font-size: 1.2em;
+  color: #eee;
+}
+
+.details {
+  width: 90%;
+  max-width: 900px;
+  margin-top: 20px;
+  text-align: center;
+  position: relative;
+}
+
+#videoLogs {
+  max-height: 150px;
+  overflow-y: auto;
+  background: #333;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 0.95em;
+  color: #eee;
+}
+
+button {
+  background: #F6A623;
+  color: #111;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #F5B041;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.9em;
+  color: #aaa;
+}
