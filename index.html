@@ -1,74 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>juBEES Dashboard</title>
-<link rel="stylesheet" href="./style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Beebimbap Monitoring - Black & Pink</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="js/main.js" defer></script>
 </head>
 <body>
+  <header class="site-header">
+    <h1>Beebimbap Monitoring</h1>
+    <p class="subtitle">Black & Pink dashboard</p>
+  </header>
 
-<header>
-  <h1>🐝 juBEES 🐝</h1>
-  <p>The Smart Beehive Monitoring System</p>
-</header>
+  <main class="container">
+    <section class="icon-grid" aria-label="Sensors">
+      <!-- Example icons - add/remove as needed; data-sensor attribute used to identify -->
+      <button class="icon-btn" data-sensor="sensor-a" aria-label="Sensor A">
+        <!-- simple SVG icon -->
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" aria-hidden="true">
+          <path d="M12 2L12 12 22 12"></path>
+        </svg>
+        <span>Sensor A</span>
+      </button>
 
-<div class="dashboard">
-  <div class="card" onclick="showGraph('temp')">
-    <span class="bee">🌡️</span>
-    <h2>Temperature</h2>
-    <p id="temp">22 °C</p>
+      <button class="icon-btn" data-sensor="sensor-b" aria-label="Sensor B">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" aria-hidden="true">
+          <path d="M3 12h18M3 6h18M3 18h18"></path>
+        </svg>
+        <span>Sensor B</span>
+      </button>
+
+      <button class="icon-btn" data-sensor="sensor-c" aria-label="Sensor C">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" aria-hidden="true">
+          <path d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z"></path>
+        </svg>
+        <span>Sensor C</span>
+      </button>
+    </section>
+
+    <section class="video-section" aria-label="Livestream">
+      <h2>Live Video</h2>
+      <div class="video-wrapper">
+        <!-- Replace the src with your live stream embed (YouTube Live or other) -->
+        <iframe id="live-stream" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" title="Live stream" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chart Modal -->
+  <div id="chart-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close" aria-label="Close chart">✕</button>
+      <h3 id="chart-title">Trend</h3>
+      <canvas id="trend-chart" width="800" height="400"></canvas>
+      <div class="modal-footer">
+        <button id="download-csv" class="secondary">Download CSV</button>
+      </div>
+    </div>
+    <div class="modal-backdrop" id="modal-backdrop"></div>
   </div>
 
-  <div class="card" onclick="showGraph('humidity')">
-    <span class="bee">💧</span>
-    <h2>Humidity</h2>
-    <p id="humidity">55 %</p>
-  </div>
-
-  <div class="card" onclick="showGraph('weight')">
-    <span class="bee">⚖️</span>
-    <h2>Weight</h2>
-    <p id="weight">16 kg</p>
-  </div>
-
-  <div class="card" onclick="showGraph('audio')">
-    <span class="bee">🔊</span>
-    <h2>Audio</h2>
-    <p id="audio">Normal</p>
-  </div>
-
-  <div class="card" onclick="showVideoPanel()">
-    <span class="bee">🎥</span>
-    <h2>Video</h2>
-    <p id="videoStatus">No Intrusion</p>
-  </div>
-</div>
-
-<div class="details" id="detailsSection" style="display:none;">
-  <canvas id="detailChart" width="400" height="200"></canvas>
-
-  <div id="videoSection" style="display:none; margin-top:20px;">
-    <video id="videoClip" width="400" controls>
-      <source id="videoSource" src="./example_clip.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-
-    <br><br>
-    <button onclick="startLiveStream()">Go Live</button>
-
-    <h3 style="margin-top:20px;">Detection Logs:</h3>
-    <ul id="videoLogs"></ul>
-  </div>
-
-  <button onclick="downloadLogs()" style="margin-top:20px;">Download CSV Logs</button>
-</div>
-
-<footer>
-  © 2025 juBEES | Dummy Example
-</footer>
-
-<script src="./script.js" defer></script>
+  <footer class="site-footer">
+    <p>Made with ♥ — black & pink theme</p>
+  </footer>
 </body>
 </html>
