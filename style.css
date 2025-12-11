@@ -1,123 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-}
-
+/* style.css */
 body {
-  background: #111;
-  color: #eee;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
 }
 
 header {
-  text-align: center;
-  margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
-header h1 {
-  font-size: 2.5em;
-  color: #F6A623;
-}
-
-header p {
-  font-size: 1.1em;
-  color: #ccc;
+h1 {
+    color: #f39c12; /* Bee Yellow/Orange */
+    font-size: 2.5rem;
+    margin: 0;
 }
 
 .dashboard {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 15px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .card {
-  min-width: 180px;
-  flex: 0 0 auto;
-  background: #222;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.2s, background 0.2s;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 180px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  background: #333;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    border-bottom: 5px solid #f39c12;
 }
 
 .bee {
-  font-size: 3em;
-  margin-bottom: 15px;
-  transition: transform 0.3s;
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
 }
 
-.card:hover .bee {
-  transform: translateY(-5px);
-}
-
-.card h2 {
-  margin-bottom: 10px;
-  font-size: 1.5em;
-  color: #F6A623;
-}
-
-.card p {
-  font-size: 1.2em;
-  color: #eee;
+h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
 }
 
 .details {
-  width: 90%;
-  max-width: 900px;
-  margin-top: 20px;
-  text-align: center;
-  position: relative;
-}
-
-#videoLogs {
-  max-height: 150px;
-  overflow-y: auto;
-  background: #333;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: left;
-  font-size: 0.95em;
-  color: #eee;
+    margin-top: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
 button {
-  background: #F6A623;
-  color: #111;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background 0.2s;
+    background-color: #f39c12;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 button:hover {
-  background: #F5B041;
+    background-color: #d35400;
 }
-
-footer {
-  margin-top: 40px;
-  font-size: 0.9em;
-  color: #aaa;
-}
-
