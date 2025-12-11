@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juBEES | Monitor System</title>
+    <title>juBEES | Clean Monitor v7</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,9 +14,9 @@
     <div class="bg-layer"></div>
 
     <section id="login" class="view active-view center-screen">
-        <div class="login-card">
+        <div class="final-login-box">
             <div class="brand-large"><i class="fas fa-bug"></i> juBEES</div>
-            <p class="sub-text">meliponini_monitoring_system</p>
+            <p class="sub-text">meliponini_system_v7</p>
             <br>
             <form onsubmit="event.preventDefault(); attemptLogin();">
                 <div class="input-container">
@@ -46,13 +46,9 @@
 
     <section id="home" class="view center-screen">
         <div class="home-content">
-            <p class="fade-in">welcome_back :: <span id="userDisplay" class="highlight">admin</span></p>
+            <p class="fade-in">access_granted :: <span id="userDisplay" class="highlight">admin</span></p>
             <h1 id="typewriter" class="hero-title"></h1>
-            
-            <div class="status-badge fade-in-delay">
-                <span class="dot">●</span> SYSTEM_OPTIMAL
-            </div>
-            
+            <div class="status-badge fade-in-delay"><span class="dot">●</span> SYSTEM_OPTIMAL</div>
             <br><br>
             <div class="fade-in-delay">
                 <button class="clean-btn outline" onclick="navigate('dashboard')">./launch_dashboard</button>
@@ -64,8 +60,7 @@
         <div class="glass-panel">
             <header class="dash-header">
                 <div class="hive-info">
-                    <h2>HIVE_04</h2>
-                    <span class="tag">Tetragonula biroi</span>
+                    <h2>HIVE_04</h2> <span class="tag">Tetragonula biroi</span>
                 </div>
                 <div class="sys-info">
                     <span><i class="fas fa-wifi"></i> ONLINE</span>
@@ -91,8 +86,7 @@
 
             <div class="chart-section">
                 <div class="chart-header">
-                    <h4 id="chartTitle">LIVE ANALYTICS // TEMP</h4>
-                    <span class="live-dot">● LIVE</span>
+                    <h4 id="chartTitle">LIVE ANALYTICS // TEMP</h4> <span class="live-dot">● LIVE</span>
                 </div>
                 <div class="chart-wrapper">
                     <canvas id="mainChart"></canvas>
@@ -103,7 +97,6 @@
                 <h4>EVENT_LOGS</h4>
                 <ul id="logStream">
                     <li><span class="time">14:05</span> Motion detected at entrance</li>
-                    <li><span class="time">14:00</span> Data synchronized with cloud</li>
                 </ul>
             </div>
         </div>
@@ -111,8 +104,7 @@
 
     <section id="settings" class="view">
         <div class="glass-card settings-card">
-            <h1>PREFERENCES</h1>
-            <br>
+            <h1>PREFERENCES</h1><br>
             <div class="setting-group">
                 <label>THEME</label>
                 <div class="btn-row">
