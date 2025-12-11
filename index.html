@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juBEES | Smart Monitor</title>
+    <title>juBEES | Monitor System</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,7 +14,7 @@
     <div class="bg-layer"></div>
 
     <section id="login" class="view active-view center-screen">
-        <div class="glass-card login-card">
+        <div class="login-card">
             <div class="brand-large"><i class="fas fa-bug"></i> juBEES</div>
             <p class="sub-text">meliponini_monitoring_system</p>
             <br>
@@ -47,7 +47,6 @@
     <section id="home" class="view center-screen">
         <div class="home-content">
             <p class="fade-in">welcome_back :: <span id="userDisplay" class="highlight">admin</span></p>
-            
             <h1 id="typewriter" class="hero-title"></h1>
             
             <div class="status-badge fade-in-delay">
@@ -69,7 +68,7 @@
                     <span class="tag">Tetragonula biroi</span>
                 </div>
                 <div class="sys-info">
-                    <span><i class="fas fa-wifi"></i> CONNECTED</span>
+                    <span><i class="fas fa-wifi"></i> ONLINE</span>
                     <span><i class="fas fa-battery-full"></i> 98%</span>
                     <span id="clock">12:00</span>
                 </div>
@@ -78,24 +77,15 @@
             <div class="kpi-grid">
                 <div class="kpi-card active" onclick="switchSensor('temp', this)">
                     <div class="icon"><i class="fas fa-temperature-low"></i></div>
-                    <div>
-                        <small>TEMPERATURE</small>
-                        <h3 id="tempDisplay">--</h3>
-                    </div>
+                    <div><small>TEMPERATURE</small><h3 id="tempDisplay">--</h3></div>
                 </div>
                 <div class="kpi-card" onclick="switchSensor('humidity', this)">
                     <div class="icon"><i class="fas fa-tint"></i></div>
-                    <div>
-                        <small>HUMIDITY</small>
-                        <h3>65%</h3>
-                    </div>
+                    <div><small>HUMIDITY</small><h3>65%</h3></div>
                 </div>
                 <div class="kpi-card" onclick="switchSensor('weight', this)">
                     <div class="icon"><i class="fas fa-weight-hanging"></i></div>
-                    <div>
-                        <small>WEIGHT</small>
-                        <h3>1.2kg</h3>
-                    </div>
+                    <div><small>WEIGHT</small><h3>1.2kg</h3></div>
                 </div>
             </div>
 
