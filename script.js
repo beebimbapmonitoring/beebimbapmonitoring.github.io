@@ -1,106 +1,121 @@
-document.addEventListener("DOMContentLoaded", function() {
-  console.log("DOM fully loaded and parsed");
-  
-  // Dummy data
-  let dummyLabels = ["T-4", "T-3", "T-2", "T-1", "Now"];
-  let dummyTemp = [21, 22, 22.5, 23, 22];
-  let dummyHumidity = [50, 52, 53, 55, 54];
-  let dummyWeight = [15.5, 15.8, 16, 16.1, 16];
-  let dummyAudio = [0, 0, 1, 0, 0];
-  let videoLogData = [
-    "10:00 - No intrusion",
-    "10:01 - Bee detected",
-    "10:02 - Unknown object",
-    "10:03 - No intrusion"
-  ];
+// Global variable para sa Chart instance
+let myChart = null;
 
-  let chart = null;
+// Dummy Data para sa Simulation (kunwari galing sa database)
+const mockData = {
+    temp: {
+        label: 'Temperature History (°C)',
+        data: [21, 22, 23, 22, 24, 22, 21],
+        color: '#ffcd56' // Yellow-ish
+    },
+    humidity: {
+        label: 'Humidity History (%)',
+        data: [50, 52, 55, 53, 55, 54, 55],
+        color: '#36a2eb' // Blue
+    },
+    weight: {
+        label: 'Hive Weight (kg)',
+        data: [15.5, 15.8, 16.0, 16.0, 15.9, 16.1, 16.0],
+        color: '#4bc0c0' // Teal
+    },
+    audio: {
+        label: 'Audio Decibels (dB)',
+        data: [40, 42, 45, 41, 39, 42, 40],
+        color: '#ff9f40' // Orange
+    }
+};
 
-  // Initialize display data
-  document.getElementById('temp').innerText = dummyTemp[4] + " °C";
-  document.getElementById('humidity').innerText = dummyHumidity[4] + " %";
-  document.getElementById('weight').innerText = dummyWeight[4] + " kg";
-  document.getElementById('audio').innerText = dummyAudio[4] ? "Buzzing Alert!" : "Normal";
-  document.getElementById('videoStatus').innerText = "No Intrusion";
+// Function: Ipakita ang Graph base sa pinindot na card
+function showGraph(sensorType) {
+    // 1. Ipakita ang chart container, itago ang video
+    document.getElementById('detailsSection').style.display = 'block';
+    document.getElementById('videoSection').style.display = 'none';
+    const canvas = document.getElementById('detailChart');
+    canvas.style.display = 'block';
 
-  // Show Graph Function
-  window.showGraph = function(type) {
-    document.getElementById("detailsSection").style.display = "block";
-    document.getElementById("videoSection").style.display = "none";
-
-    let dataSet, label, yLabel;
-
-    switch(type) {
-      case 'temp': dataSet = dummyTemp; label = "Temperature"; yLabel = "°C"; break;
-      case 'humidity': dataSet = dummyHumidity; label = "Humidity"; yLabel = "%"; break;
-      case 'weight': dataSet = dummyWeight; label = "Weight"; yLabel = "kg"; break;
-      case 'audio': dataSet = dummyAudio; label = "Audio Alerts"; yLabel = "Alert"; break;
-      default: return;
+    // 2. Sirain ang lumang chart kung meron man (para hindi magpatong-patong)
+    if (myChart) {
+        myChart.destroy();
     }
 
-    if(chart) chart.destroy();
+    // 3. Kunin ang data base sa sensorType (temp, humidity, etc.)
+    const dataset = mockData[sensorType];
 
-    const ctx = document.getElementById("detailChart").getContext("2d");
-    chart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: dummyLabels,
-        datasets: [{
-          label: label,
-          data: dataSet,
-          borderColor: "#F6A623",
-          backgroundColor: "rgba(246,166,35,0.3)",
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true, title: { display: true, text: yLabel } },
-          x: { title: { display: true, text: "Time" } }
+    // 4. Gumawa ng bagong Chart
+    const ctx = canvas.getContext('2d');
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', 'Now'],
+            datasets: [{
+                label: dataset.label,
+                data: dataset.data,
+                borderColor: dataset.color,
+                backgroundColor: dataset.color + '33', // Add transparency
+                fill: true,
+                tension: 0.4 // Smooth curves
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: false }
+            }
         }
-      }
     });
-  };
 
-  // Show Video Panel
-  window.showVideoPanel = function() {
-    document.getElementById("detailsSection").style.display = "block";
-    document.getElementById("videoSection").style.display = "block";
+    // Scroll to details section smoothly
+    document.getElementById('detailsSection').scrollIntoView({ behavior: 'smooth' });
+}
 
-    // Clear previous chart
-    const ctx = document.getElementById("detailChart").getContext("2d");
-    if (chart) {
-      chart.destroy();
-      chart = null;
-    }
+// Function: Ipakita ang Video Panel
+function showVideoPanel() {
+    document.getElementById('detailsSection').style.display = 'block';
+    document.getElementById('detailChart').style.display = 'none'; // Itago ang chart
+    document.getElementById('videoSection').style.display = 'block'; // Ipakita ang video
 
-    // Load logs
-    const logs = document.getElementById("videoLogs");
-    logs.innerHTML = "";
-    videoLogData.forEach((x) => {
-      const li = document.createElement("li");
-      li.innerText = x;
-      logs.appendChild(li);
-    });
-  };
+    // Populate fake logs
+    const logList = document.getElementById('videoLogs');
+    logList.innerHTML = `
+        <li>✅ 14:05 - Motion Detected (Worker Bees)</li>
+        <li>✅ 12:30 - Beekeeper Maintenance</li>
+        <li>⚠️ 09:15 - Unknown Object Detected</li>
+    `;
 
-  // Download CSV logs
-  window.downloadLogs = function() {
-    let csv = "Time,Temperature,Humidity,Weight,Audio\n";
-    for (let i = 0; i < dummyLabels.length; i++) {
-      csv += ${dummyLabels[i]},${dummyTemp[i]},${dummyHumidity[i]},${dummyWeight[i]},${dummyAudio[i]}\n;
-    }
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-    a.download = "beehive_logs.csv";
-    a.click();
-  };
+    document.getElementById('detailsSection').scrollIntoView({ behavior: 'smooth' });
+}
 
-  // Dummy start live stream
-  window.startLiveStream = function() {
-    alert("Starting live stream... (dummy only)");
-  };
-});
-Write to Juan Carlo Gironella
+// Function: Mock Live Stream
+function startLiveStream() {
+    alert("📡 Connecting to live camera feed... (This is a simulation)");
+    const video = document.getElementById('videoClip');
+    video.play();
+}
+
+// Function: Download CSV Logs
+function downloadLogs() {
+    const rows = [
+        ["Timestamp", "Sensor", "Value", "Status"],
+        ["2025-01-01 10:00", "Temp", "22C", "Normal"],
+        ["2025-01-01 10:00", "Humidity", "55%", "Normal"],
+        ["2025-01-01 10:00", "Weight", "16kg", "Stable"]
+    ];
+
+    let csvContent = "data:text/csv;charset=utf-8," 
+        + rows.map(e => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "juBEES_logs.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// (Optional) Auto-update dashboard numbers randomizer para mukhang live
+setInterval(() => {
+    // Randomize Temp slightly
+    const currentTemp = 21 + Math.floor(Math.random() * 3);
+    document.getElementById('temp').innerText = currentTemp + " °C";
+}, 3000); // Updates every 3 seconds
