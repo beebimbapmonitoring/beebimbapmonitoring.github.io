@@ -1,11 +1,10 @@
-// --- STATE ---
 let isLoggedIn = false;
 let currentUnit = 'C';
 let myChart = null;
 let updateInterval = null;
 let activeSensor = 'temp';
 
-// --- LOGIN ---
+// LOGIN
 function attemptLogin() {
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value.trim();
@@ -17,7 +16,6 @@ function attemptLogin() {
         document.getElementById('mainNav').classList.remove('hidden');
         navigate('home');
         
-        // Start Typewriter
         setTimeout(() => typeWriter("colony_status: healthy", "typewriter"), 500);
     } else {
         const err = document.getElementById('errorMsg');
@@ -26,7 +24,7 @@ function attemptLogin() {
     }
 }
 
-// SMOOTH TYPEWRITER EFFECT
+// TYPEWRITER
 function typeWriter(text, elementId) {
     let i = 0;
     const speed = 80;
@@ -37,9 +35,7 @@ function typeWriter(text, elementId) {
             el.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
-        } else {
-            el.innerHTML += '<span style="animation:pulse 1s infinite">|</span>'; 
-        }
+        } else { el.innerHTML += '<span style="animation:pulse 1s infinite">|</span>'; }
     }
     type();
 }
@@ -50,15 +46,13 @@ function performLogout() {
     location.reload();
 }
 
-// --- NAVIGATION ---
+// NAV
 function navigate(viewId) {
     if(!isLoggedIn) return;
-
     document.querySelectorAll('.view').forEach(el => {
         el.classList.remove('active-view');
         el.style.display = 'none';
     });
-    
     const target = document.getElementById(viewId);
     target.style.display = (viewId === 'home') ? 'flex' : 'block';
     setTimeout(() => target.classList.add('active-view'), 10);
@@ -67,18 +61,15 @@ function navigate(viewId) {
     const navLink = document.getElementById('nav-' + (viewId === 'home' || viewId === 'dashboard' ? viewId : 'settings'));
     if(navLink) navLink.classList.add('active-link');
 
-    if(viewId === 'dashboard') {
-        initDashboard();
-    }
+    if(viewId === 'dashboard') { initDashboard(); }
 }
 
-// --- DASHBOARD LOGIC ---
+// DASHBOARD
 const chartConfig = {
     temp: { label: 'Temperature', color: '#e2b714', base: 26, variance: 2 },
     humidity: { label: 'Humidity', color: '#3498db', base: 60, variance: 5 },
     weight: { label: 'Weight', color: '#2ecc71', base: 1.2, variance: 0.1 }
 };
-
 let currentData = Array(15).fill(0).map(() => 26); 
 
 function initDashboard() {
@@ -103,7 +94,6 @@ function updateGraphData() {
     const conf = chartConfig[activeSensor];
     let newVal = conf.base + (Math.random() * conf.variance * 2 - conf.variance);
     if(activeSensor === 'temp' && currentUnit === 'F') newVal = (newVal * 9/5) + 32;
-    
     if(activeSensor === 'temp') document.getElementById('tempDisplay').innerText = Math.round(newVal) + "°" + currentUnit;
 
     const dataset = myChart.data.datasets[0];
@@ -125,15 +115,9 @@ function renderChart(type) {
         data: {
             labels: Array(15).fill(''),
             datasets: [{
-                label: conf.label,
-                data: [...currentData],
-                borderColor: conf.color,
-                backgroundColor: conf.color + '11',
-                borderWidth: 2,
-                pointRadius: 0,
-                pointHoverRadius: 4,
-                fill: true,
-                tension: 0.4
+                label: conf.label, data: [...currentData],
+                borderColor: conf.color, backgroundColor: conf.color + '11',
+                borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, fill: true, tension: 0.4
             }]
         },
         options: {
@@ -145,7 +129,7 @@ function renderChart(type) {
     });
 }
 
-// --- SETTINGS ---
+// SETTINGS
 function setTheme(theme) {
     document.body.className = ''; 
     if(theme !== 'serika') document.body.classList.add('theme-' + theme);
@@ -165,7 +149,3 @@ function startClock() {
 }
 
 window.onload = () => { document.getElementById('login').style.display = 'flex'; };
-// Init
-window.onload = () => {
-    document.getElementById('login').style.display = 'flex';
-};
