@@ -1,31 +1,20 @@
-// --- VARIABLES ---
 let isLoggedIn = false;
 let currentUnit = 'C';
 let myChart = null;
 
-// --- LOGIN LOGIC (Fixed to allow any input) ---
+// --- LOGIN LOGIC ---
 function attemptLogin() {
-    console.log("Login clicked"); // Debugging check
-    
-    // Get inputs and trim spaces
+    console.log("Login Attempted"); 
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value.trim();
 
-    // IF NOT EMPTY (Kahit ano basta may laman)
     if(u !== "" && p !== "") {
         isLoggedIn = true;
-        
-        // Update user display name in Home
         document.getElementById('userDisplay').innerText = u;
-
-        // Hide Login, Show Navigation
         document.getElementById('login').style.display = 'none';
         document.getElementById('mainNav').classList.remove('hidden');
-        
-        // Go to Home
         navigate('home');
     } else {
-        // Show Error if empty
         const err = document.getElementById('errorMsg');
         err.classList.remove('hidden');
         setTimeout(() => err.classList.add('hidden'), 2000);
@@ -35,19 +24,13 @@ function attemptLogin() {
 function performLogout() {
     isLoggedIn = false;
     document.getElementById('mainNav').classList.add('hidden');
-    
-    // Hide all views
     document.querySelectorAll('.view').forEach(v => {
         v.classList.remove('active-view');
         v.style.display = 'none';
     });
-
-    // Show Login
     const login = document.getElementById('login');
     login.classList.add('active-view');
-    login.style.display = 'flex'; // Flex for centering
-    
-    // Clear inputs
+    login.style.display = 'flex';
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
 }
@@ -55,24 +38,18 @@ function performLogout() {
 // --- NAVIGATION ---
 function navigate(viewId) {
     if(!isLoggedIn) return;
-
-    // Hide all
     document.querySelectorAll('.view').forEach(el => {
         el.classList.remove('active-view');
         el.style.display = 'none';
     });
-
-    // Show selected
     const target = document.getElementById(viewId);
     target.classList.add('active-view');
     target.style.display = 'block';
 
-    // Update Nav
     document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active-link'));
     const navLink = document.getElementById('nav-' + (viewId === 'home' || viewId === 'dashboard' ? viewId : 'settings'));
     if(navLink) navLink.classList.add('active-link');
 
-    // Init Logic if Dashboard
     if(viewId === 'dashboard') {
         renderChart('temp');
         startClock();
@@ -81,9 +58,8 @@ function navigate(viewId) {
 
 // --- SETTINGS ---
 function setTheme(theme) {
-    document.body.className = ''; // Clear old theme
+    document.body.className = '';
     if(theme !== 'serika') document.body.classList.add('theme-' + theme);
-    
     document.querySelectorAll('.setting-options .option-btn').forEach(btn => {
         btn.classList.remove('active');
         if(btn.innerText.includes(theme)) btn.classList.add('active');
@@ -94,7 +70,6 @@ function setUnit(unit) {
     currentUnit = unit;
     document.getElementById('btn-c').classList.toggle('active', unit === 'C');
     document.getElementById('btn-f').classList.toggle('active', unit === 'F');
-
     const baseTemp = 28;
     const val = (unit === 'C') ? baseTemp : (baseTemp * 9/5) + 32;
     document.getElementById('tempDisplay').innerText = Math.round(val) + "°" + unit;
@@ -106,7 +81,7 @@ function saveSettings() {
     setTimeout(() => msg.classList.add('hidden'), 2000);
 }
 
-// --- DASHBOARD CHARTS ---
+// --- CHART & DASHBOARD ---
 const mockData = {
     temp: { label: 'Temperature', data: [26, 27, 28, 28, 29, 28, 27] },
     humidity: { label: 'Humidity', data: [60, 62, 65, 64, 65, 63, 65] },
@@ -118,15 +93,12 @@ function renderChart(type) {
     const style = getComputedStyle(document.body);
     const mainColor = style.getPropertyValue('--main-color').trim();
     const subColor = style.getPropertyValue('--sub-color').trim();
-
     let dataPoints = [...mockData[type].data];
     if(type === 'temp' && currentUnit === 'F') {
         dataPoints = dataPoints.map(t => (t * 9/5) + 32);
     }
-
     if(myChart) myChart.destroy();
     Chart.defaults.font.family = 'Roboto Mono';
-
     myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -181,6 +153,9 @@ function startClock() {
     update();
 }
 
+window.onload = () => {
+    document.getElementById('login').style.display = 'flex';
+};
 // Ensure Login shows on load
 window.onload = () => {
     document.getElementById('login').style.display = 'flex';
