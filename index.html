@@ -1,65 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>juBEES Dashboard</title>
-<link rel="stylesheet" href="./style.css" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>juBEES | Smart Beekeeping</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<header>
-  <h1>🐝 juBEES 🐝</h1>
-  <p>The Smart Beehive Monitoring System</p>
-</header>
 
-<div class="dashboard">
-  <div class="card" onclick="showGraph('temp')">
-    <span class="bee">🌡️</span>
-    <h2>Temperature</h2>
-    <p id="temp">22 °C</p>
-  </div>
-  <div class="card" onclick="showGraph('humidity')">
-    <span class="bee">💧</span>
-    <h2>Humidity</h2>
-    <p id="humidity">55 %</p>
-  </div>
-  <div class="card" onclick="showGraph('weight')">
-    <span class="bee">⚖️</span>
-    <h2>Weight</h2>
-    <p id="weight">16 kg</p>
-  </div>
-  <div class="card" onclick="showGraph('audio')">
-    <span class="bee">🔊</span>
-    <h2>Audio</h2>
-    <p id="audio">Normal</p>
-  </div>
-  <div class="card" onclick="showVideoPanel()">
-    <span class="bee">🎥</span>
-    <h2>Video</h2>
-    <p id="videoStatus">No Intrusion</p>
-  </div>
-</div>
+    <nav>
+        <a href="index.html" class="logo">🐝 juBEES</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#features">Features</a>
+            <a href="dashboard.html" class="btn-login">Go to Dashboard</a>
+        </div>
+    </nav>
 
-<div class="details" id="detailsSection" style="display:none;">
-  <canvas id="detailChart" width="400" height="200"></canvas>
+    <section class="hero">
+        <h1>Smart Beehive Monitoring</h1>
+        <p>Monitor temperature, humidity, and security in real-time.</p>
+        <a href="dashboard.html" class="cta-button">Launch Dashboard</a>
+    </section>
 
-  <div id="videoSection" style="display:none; margin-top:20px;">
-    <video id="videoClip" width="400" controls>
-      <source id="videoSource" src="./example_clip.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-    <br /><br />
-    <button onclick="startLiveStream()">Go Live</button>
-    <h3 style="margin-top:20px;">Detection Logs:</h3>
-    <ul id="videoLogs"></ul>
-  </div>
+    <section class="features" id="features">
+        <div class="feature-box">
+            <h3>🌡️ Real-time Sensors</h3>
+            <p>Track hive conditions instantly.</p>
+        </div>
+        <div class="feature-box">
+            <h3>🎥 Video Security</h3>
+            <p>AI-powered intrusion detection.</p>
+        </div>
+        <div class="feature-box">
+            <h3>📊 Data Analytics</h3>
+            <p>Historical logs and insights.</p>
+        </div>
+    </section>
 
-  <button onclick="downloadLogs()" style="margin-top:20px;">Download CSV Logs</button>
-</div>
+    <footer style="text-align:center; padding: 20px; color: #777;">
+        © 2025 juBEES Inc.
+    </footer>
 
-<footer>© 2025 juBEES | Dummy Example</footer>
-
-<script src="./script.js" defer></script>
 </body>
 </html>
