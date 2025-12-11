@@ -1,10 +1,12 @@
+// --- STATE ---
 let isLoggedIn = false;
 let currentUnit = 'C';
 let myChart = null;
+let updateInterval = null; // Stores the interval ID
+let activeSensor = 'temp';
 
-// --- LOGIN LOGIC ---
+// --- LOGIN ---
 function attemptLogin() {
-    console.log("Login Attempted"); 
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value.trim();
 
@@ -14,6 +16,9 @@ function attemptLogin() {
         document.getElementById('login').style.display = 'none';
         document.getElementById('mainNav').classList.remove('hidden');
         navigate('home');
+        
+        // Start Typewriter Effect on Home
+        setTimeout(() => typeWriter("colony_status: healthy", "typewriter"), 500);
     } else {
         const err = document.getElementById('errorMsg');
         err.classList.remove('hidden');
@@ -21,142 +26,177 @@ function attemptLogin() {
     }
 }
 
+// SMOOTH TYPEWRITER EFFECT
+function typeWriter(text, elementId) {
+    let i = 0;
+    const speed = 80; // Smooth speed
+    const el = document.getElementById(elementId);
+    el.innerHTML = "";
+    
+    function type() {
+        if (i < text.length) {
+            el.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Remove cursor after done or keep it subtle
+            el.innerHTML += '<span style="animation:pulse 1s infinite">|</span>'; 
+        }
+    }
+    type();
+}
+
 function performLogout() {
     isLoggedIn = false;
-    document.getElementById('mainNav').classList.add('hidden');
-    document.querySelectorAll('.view').forEach(v => {
-        v.classList.remove('active-view');
-        v.style.display = 'none';
-    });
-    const login = document.getElementById('login');
-    login.classList.add('active-view');
-    login.style.display = 'flex';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
+    clearInterval(updateInterval); // Stop chart updates
+    location.reload();
 }
 
 // --- NAVIGATION ---
 function navigate(viewId) {
     if(!isLoggedIn) return;
+
     document.querySelectorAll('.view').forEach(el => {
         el.classList.remove('active-view');
         el.style.display = 'none';
     });
+    
     const target = document.getElementById(viewId);
-    target.classList.add('active-view');
-    target.style.display = 'block';
+    target.style.display = (viewId === 'home') ? 'flex' : 'block';
+    setTimeout(() => target.classList.add('active-view'), 10);
 
     document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active-link'));
     const navLink = document.getElementById('nav-' + (viewId === 'home' || viewId === 'dashboard' ? viewId : 'settings'));
     if(navLink) navLink.classList.add('active-link');
 
     if(viewId === 'dashboard') {
-        renderChart('temp');
-        startClock();
+        initDashboard();
     }
+}
+
+// --- DASHBOARD LOGIC ---
+const chartConfig = {
+    temp: { label: 'Temperature', color: '#e2b714', base: 26, variance: 2 },
+    humidity: { label: 'Humidity', color: '#3498db', base: 60, variance: 5 },
+    weight: { label: 'Weight', color: '#2ecc71', base: 1.2, variance: 0.1 }
+};
+
+// Initial Data (10 points)
+let currentData = Array(15).fill(0).map(() => 26); 
+
+function initDashboard() {
+    startClock();
+    renderChart(activeSensor);
+    
+    // Stop existing loop if any
+    if(updateInterval) clearInterval(updateInterval);
+    
+    // Start Live Update Loop (Every 1.5 seconds)
+    updateInterval = setInterval(() => {
+        updateGraphData();
+    }, 1500);
+}
+
+function switchSensor(sensor, el) {
+    activeSensor = sensor;
+    // Highlight Card
+    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    
+    // Update Title & Graph Color
+    document.getElementById('chartTitle').innerText = "LIVE ANALYTICS // " + chartConfig[sensor].label.toUpperCase();
+    
+    // Reset Data based on sensor type (Simulation)
+    const conf = chartConfig[sensor];
+    currentData = Array(15).fill(0).map(() => conf.base);
+    
+    renderChart(sensor);
+}
+
+function updateGraphData() {
+    if(!myChart) return;
+    
+    const conf = chartConfig[activeSensor];
+    
+    // Generate logical random value
+    let newVal = conf.base + (Math.random() * conf.variance * 2 - conf.variance);
+    
+    // Fahrenheit conversion logic
+    if(activeSensor === 'temp' && currentUnit === 'F') {
+        newVal = (newVal * 9/5) + 32;
+    }
+    
+    // Update Display Number
+    let displayVal = newVal.toFixed(1);
+    if(activeSensor === 'temp') document.getElementById('tempDisplay').innerText = Math.round(newVal) + "°" + currentUnit;
+
+    // SCROLLING EFFECT: Remove first, Add to end
+    const dataset = myChart.data.datasets[0];
+    dataset.data.shift(); // Remove left-most
+    dataset.data.push(newVal); // Add right-most
+    
+    myChart.update('none'); // Update without full animation for smooth flow
+}
+
+function renderChart(type) {
+    const ctx = document.getElementById('mainChart').getContext('2d');
+    const conf = chartConfig[type];
+    
+    if(myChart) myChart.destroy();
+    
+    Chart.defaults.font.family = 'Roboto Mono';
+    Chart.defaults.color = '#646669';
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array(15).fill(''), // Hide x-labels for clean look
+            datasets: [{
+                label: conf.label,
+                data: [...currentData],
+                borderColor: conf.color,
+                backgroundColor: conf.color + '11', // Very transparent fill
+                borderWidth: 2,
+                pointRadius: 0, // No points for smooth line
+                pointHoverRadius: 4,
+                fill: true,
+                tension: 0.4 // Smooth curves
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false, // Disable initial bounce for scrolling effect
+            interaction: { intersect: false, mode: 'index' },
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
 }
 
 // --- SETTINGS ---
 function setTheme(theme) {
-    document.body.className = '';
+    document.body.className = ''; 
     if(theme !== 'serika') document.body.classList.add('theme-' + theme);
-    document.querySelectorAll('.setting-options .option-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if(btn.innerText.includes(theme)) btn.classList.add('active');
-    });
 }
 
 function setUnit(unit) {
     currentUnit = unit;
     document.getElementById('btn-c').classList.toggle('active', unit === 'C');
     document.getElementById('btn-f').classList.toggle('active', unit === 'F');
-    const baseTemp = 28;
-    const val = (unit === 'C') ? baseTemp : (baseTemp * 9/5) + 32;
-    document.getElementById('tempDisplay').innerText = Math.round(val) + "°" + unit;
-}
-
-function saveSettings() {
-    const msg = document.getElementById('saveMsg');
-    msg.classList.remove('hidden');
-    setTimeout(() => msg.classList.add('hidden'), 2000);
-}
-
-// --- CHART & DASHBOARD ---
-const mockData = {
-    temp: { label: 'Temperature', data: [26, 27, 28, 28, 29, 28, 27] },
-    humidity: { label: 'Humidity', data: [60, 62, 65, 64, 65, 63, 65] },
-    weight: { label: 'Weight (kg)', data: [1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2] }
-};
-
-function renderChart(type) {
-    const ctx = document.getElementById('mainChart').getContext('2d');
-    const style = getComputedStyle(document.body);
-    const mainColor = style.getPropertyValue('--main-color').trim();
-    const subColor = style.getPropertyValue('--sub-color').trim();
-    let dataPoints = [...mockData[type].data];
-    if(type === 'temp' && currentUnit === 'F') {
-        dataPoints = dataPoints.map(t => (t * 9/5) + 32);
-    }
-    if(myChart) myChart.destroy();
-    Chart.defaults.font.family = 'Roboto Mono';
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', 'Now'],
-            datasets: [{
-                label: mockData[type].label,
-                data: dataPoints,
-                borderColor: mainColor,
-                backgroundColor: mainColor,
-                borderWidth: 2,
-                tension: 0.4,
-                pointRadius: 3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { ticks: { color: subColor }, grid: { display: false } },
-                y: { ticks: { color: subColor }, grid: { color: subColor + '22' } }
-            }
-        }
-    });
-}
-
-function showGraph(type, el) {
-    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active-card'));
-    el.classList.add('active-card');
-    document.querySelector('.chart-container-responsive canvas').style.display = 'block';
-    document.getElementById('videoContainer').style.display = 'none';
-    document.getElementById('contentTitle').innerText = mockData[type].label + " Analytics";
-    renderChart(type);
-}
-
-function showVideoPanel(el) {
-    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active-card'));
-    el.classList.add('active-card');
-    document.querySelector('.chart-container-responsive canvas').style.display = 'none';
-    document.getElementById('videoContainer').style.display = 'block';
-    document.getElementById('contentTitle').innerText = "Live Hive Entrance";
 }
 
 function startClock() {
-    const update = () => {
-        const now = new Date();
-        const t = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-        const el = document.getElementById('clock');
-        if(el) el.innerText = t;
-    };
-    setInterval(update, 1000);
-    update();
+    setInterval(() => {
+        const d = new Date();
+        document.getElementById('clock').innerText = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+    }, 1000);
 }
 
-window.onload = () => {
-    document.getElementById('login').style.display = 'flex';
-};
-// Ensure Login shows on load
+// Init
 window.onload = () => {
     document.getElementById('login').style.display = 'flex';
 };
