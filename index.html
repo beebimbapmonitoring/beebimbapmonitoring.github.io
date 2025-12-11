@@ -1,126 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juBEES | Smart Monitor</title>
+    <title>BTS WORLD | Monkeytype Theme</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="bg-layer"></div>
-
-    <section id="login" class="view active-view center-screen">
-        <div class="glass-card login-card">
-            <div class="brand-large"><i class="fas fa-bug"></i> juBEES</div>
-            <p class="sub-text">meliponini_monitoring_system</p>
-            <br>
-            <form onsubmit="event.preventDefault(); attemptLogin();">
-                <div class="input-container">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" placeholder="username" autocomplete="off">
-                </div>
-                <div class="input-container">
-                    <i class="fas fa-key"></i>
-                    <input type="password" id="password" placeholder="password">
-                </div>
-                <br>
-                <button type="submit" class="clean-btn">> login</button>
-            </form>
-            <p id="errorMsg" class="error-text hidden">please_fill_all_fields</p>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-keyboard"></i> BTS_WORLD
         </div>
-    </section>
-
-    <nav class="navbar hidden" id="mainNav">
-        <div class="brand-small">juBEES</div>
-        <ul class="nav-menu">
-            <li onclick="navigate('home')" id="nav-home">home</li>
-            <li onclick="navigate('dashboard')" id="nav-dash">monitor</li>
-            <li onclick="navigate('settings')" id="nav-settings">settings</li>
-            <li onclick="performLogout()" class="logout-link">logout</li>
-        </ul>
+        <div class="nav-links">
+            <a href="#" class="active">home</a>
+            <a href="#">world</a>
+            <a href="#">gallery</a>
+            <a href="#">news</a>
+        </div>
+        <button class="btn-top">pre_register</button>
     </nav>
 
-    <section id="home" class="view center-screen">
-        <div class="home-content">
-            <p class="fade-in">welcome_back :: <span id="userDisplay" class="highlight">admin</span></p>
+    <main class="hero-section">
+        <div class="content-card">
             
-            <h1 id="typewriter" class="hero-title"></h1>
-            
-            <div class="status-badge fade-in-delay">
-                <span class="dot">●</span> SYSTEM_OPTIMAL
+            <div class="card-left">
+                <p class="sub-label">system_init :: pre_registration</p>
+                <h1>looking_for <br> <span class="highlight">manager</span>.exe</h1>
+                
+                <div class="quotes-area">
+                    <p class="question">> select_your_member:</p>
+                    <ul class="member-list">
+                        <li><span class="cmd">namjoon</span> "someone_who_guides_us"</li>
+                        <li><span class="cmd">seokjin</span> "choco_milk_provider"</li>
+                        <li><span class="cmd">yoongi</span> "similar_values"</li>
+                    </ul>
+                </div>
             </div>
-            
-            <br><br>
-            <div class="fade-in-delay">
-                <button class="clean-btn outline" onclick="navigate('dashboard')">./launch_dashboard</button>
+
+            <div class="card-right">
+                
+                <div class="os-select">
+                    <label class="radio-box">
+                        <input type="radio" name="os" value="ios" checked>
+                        <span class="radio-label"><i class="fab fa-apple"></i> App Store</span>
+                    </label>
+                    <label class="radio-box">
+                        <input type="radio" name="os" value="android">
+                        <span class="radio-label"><i class="fab fa-google-play"></i> Google Play</span>
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <span class="prefix">010</span>
+                    <input type="text" id="phone" placeholder="input_numbers_only" autocomplete="off">
+                </div>
+
+                <div class="terms">
+                    <label>
+                        <input type="checkbox" id="termsCheck">
+                        <span>accept_terms_conditions</span>
+                    </label>
+                    <button class="btn-link">[view]</button>
+                </div>
+
+                <button id="btnSubmit" class="btn-main">
+                    <i class="fas fa-chevron-right"></i> apply_manager
+                </button>
+
+                <div class="store-links">
+                    <p>alternative_methods:</p>
+                    <div class="badges">
+                        <div class="badge"><i class="fab fa-apple"></i> iOS</div>
+                        <div class="badge"><i class="fab fa-google-play"></i> Android</div>
+                    </div>
+                </div>
+
+                <button id="btnCheck" class="btn-secondary">check_status()</button>
+
             </div>
         </div>
-    </section>
+    </main>
 
-    <section id="dashboard" class="view">
-        <div class="glass-panel">
-            <header class="dash-header">
-                <div class="hive-info">
-                    <h2>HIVE_04</h2>
-                    <span class="tag">Tetragonula biroi</span>
-                </div>
-                <div class="sys-info">
-                    <span><i class="fas fa-wifi"></i> CONNECTED</span>
-                    <span><i class="fas fa-battery-full"></i> 98%</span>
-                    <span id="clock">12:00</span>
-                </div>
-            </header>
-
-            <div class="kpi-grid">
-                <div class="kpi-card active" onclick="switchSensor('temp', this)">
-                    <div class="icon"><i class="fas fa-temperature-low"></i></div>
-                    <div>
-                        <small>TEMPERATURE</small>
-                        <h3 id="tempDisplay">--</h3>
-                    </div>
-                </div>
-                <div class="kpi-card" onclick="switchSensor('humidity', this)">
-                    <div class="icon"><i class="fas fa-tint"></i></div>
-                    <div>
-                        <small>HUMIDITY</small>
-                        <h3>65%</h3>
-                    </div>
-                </div>
-                <div class="kpi-card" onclick="switchSensor('weight', this)">
-                    <div class="icon"><i class="fas fa-weight-hanging"></i></div>
-                    <div>
-                        <small>WEIGHT</small>
-                        <h3>1.2kg</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chart-section">
-                <div class="chart-header">
-                    <h4 id="chartTitle">LIVE ANALYTICS // TEMP</h4>
-                    <span class="live-dot">● LIVE</span>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="mainChart"></canvas>
-                </div>
-            </div>
-
-            <div class="logs-section">
-                <h4>EVENT_LOGS</h4>
-                <ul id="logStream">
-                    <li><span class="time">14:05</span> Motion detected at entrance</li>
-                    <li><span class="time">14:00</span> Data synchronized with cloud</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="settings" class="view">
-        <div class="glass-card settings-card">
-            <h1>PREFERENCES</h1>
-            <br>
-            <div class="setting-group">
+    <script src="script.js"></script>
+</body>
+</html>
