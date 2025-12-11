@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juBEES | stingless_v4</title>
+    <title>juBEES | Smart Meliponini Monitor</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,9 +16,9 @@
     <div class="bg-layer"></div>
 
     <section id="login" class="view active-view center-screen">
-        <div class="login-box">
+        <div class="login-glass">
             <div class="brand-large"><i class="fas fa-bug"></i> juBEES</div>
-            <p class="sub-text">stingless_bee_monitoring_system</p>
+            <p class="sub-text">meliponini_colony_system_v5</p>
             <br>
             <div class="input-group">
                 <i class="fas fa-user"></i>
@@ -28,9 +30,9 @@
             </div>
             <br>
             <div class="actions">
-                <button class="text-btn" onclick="attemptLogin()">> login</button>
-                <p id="errorMsg" class="error-text hidden">invalid_credentials</p>
+                <button class="primary-btn" onclick="attemptLogin()">> login</button>
             </div>
+            <p id="errorMsg" class="error-text hidden">invalid_credentials</p>
         </div>
     </section>
 
@@ -45,72 +47,111 @@
     </nav>
 
     <section id="home" class="view">
-        <div class="hero-text">
-            <span class="sub-text">welcome_back, <span id="userDisplay">admin</span></span>
-            <h1>colony_status: <span style="color:var(--main-color)">healthy</span><span class="cursor">|</span></h1>
-            <p>system connected to Meliponini Hive #04.</p>
+        <div class="hero-container">
+            <span class="sub-text">welcome_back, <span id="userDisplay" class="highlight">admin</span></span>
+            <h1>colony_status: <span style="color:var(--success-color)">healthy</span><span class="cursor">|</span></h1>
+            <p>connected to apiary network. monitoring 4 hives.</p>
             <br>
             <div class="command-line">
-                <span class="prompt">$</span> <button class="text-btn" onclick="navigate('dashboard')">./view_dashboard.sh</button>
+                <span class="prompt">$</span> <button class="link-btn" onclick="navigate('dashboard')">./launch_dashboard.sh</button>
             </div>
         </div>
     </section>
 
     <section id="dashboard" class="view">
-        <div class="sidebar">
-            <div class="hive-info">
-                <h3>hive_04</h3>
-                <small>species: <span class="highlight">Tetragonula biroi</span></small>
-            </div>
-            <div class="menu-list">
-                <div class="menu-item active">overview</div>
-                <div class="menu-item">analytics</div>
-            </div>
-        </div>
+        
+        <div class="dash-glass-panel">
+            
+            <header class="dash-header">
+                <div class="hive-identity">
+                    <h2><i class="fas fa-archive"></i> HIVE_04</h2>
+                    <span class="species-badge">Tetragonula biroi</span>
+                </div>
+                <div class="system-status">
+                    <div class="status-item"><i class="fas fa-wifi"></i> <span>Connected</span></div>
+                    <div class="status-item"><i class="fas fa-battery-three-quarters"></i> <span>85%</span></div>
+                    <div class="status-item"><i class="fas fa-clock"></i> <span id="clock">12:00</span></div>
+                </div>
+            </header>
 
-        <div class="main-panel">
-            <div class="stats-row">
-                <div class="stat-box active-stat" onclick="showGraph('temp')">
-                    <div class="label">temp</div>
-                    <div class="value" id="tempDisplay">28°C</div>
+            <div class="kpi-grid">
+                <div class="kpi-card active-card" onclick="showGraph('temp', this)">
+                    <div class="icon-box"><i class="fas fa-temperature-low"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Internal Temp</span>
+                        <h3 id="tempDisplay">28°C</h3>
+                    </div>
+                    <div class="kpi-indicator good"></div>
                 </div>
-                <div class="stat-box" onclick="showGraph('humidity')">
-                    <div class="label">humidity</div>
-                    <div class="value">65%</div>
+
+                <div class="kpi-card" onclick="showGraph('humidity', this)">
+                    <div class="icon-box"><i class="fas fa-tint"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Humidity</span>
+                        <h3>65%</h3>
+                    </div>
+                    <div class="kpi-indicator normal"></div>
                 </div>
-                <div class="stat-box" onclick="showGraph('weight')">
-                    <div class="label">honey_store</div>
-                    <div class="value">1.2kg</div>
+
+                <div class="kpi-card" onclick="showGraph('weight', this)">
+                    <div class="icon-box"><i class="fas fa-weight-hanging"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Colony Weight</span>
+                        <h3>1.2kg</h3>
+                    </div>
+                    <div class="kpi-indicator good"></div>
                 </div>
-                <div class="stat-box" onclick="showVideoPanel()">
-                    <div class="label">entrance</div>
-                    <div class="value">active</div>
+
+                <div class="kpi-card" onclick="showVideoPanel(this)">
+                    <div class="icon-box"><i class="fas fa-video"></i></div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Entrance Cam</span>
+                        <h3>LIVE</h3>
+                    </div>
+                    <div class="kpi-indicator alert"></div>
                 </div>
             </div>
 
-            <div class="display-area">
-                <h2 id="contentTitle">temperature_graph</h2>
-                <div class="chart-wrapper">
-                    <canvas id="mainChart"></canvas>
-                </div>
-                <div id="videoContainer" style="display:none;">
-                    <video id="videoPlayer" controls style="width:100%; border-radius:5px;">
-                        <source src="example.mp4" type="video/mp4">
-                    </video>
-                    <div class="terminal-logs">
-                        <div>> identifying_pollen_carriers...</div>
-                        <div>> count: 45 bees/min</div>
+            <div class="main-content-split">
+                
+                <div class="visualizer-box">
+                    <div class="box-header">
+                        <h4 id="contentTitle">Temperature Analytics</h4>
+                        <button class="mini-btn" onclick="alert('Downloading CSV...')"><i class="fas fa-download"></i> .CSV</button>
+                    </div>
+                    <div class="chart-container-responsive">
+                        <canvas id="mainChart"></canvas>
+                        
+                        <div id="videoContainer" style="display:none; width:100%; height:100%;">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play-circle fa-3x"></i>
+                                <p>Live Stream Active</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="log-box">
+                    <div class="box-header">
+                        <h4>System Events</h4>
+                    </div>
+                    <ul class="log-list">
+                        <li class="log-item"><span class="time">14:05</span> <span class="msg">Motion detected</span></li>
+                        <li class="log-item"><span class="time">13:50</span> <span class="msg">Temp stable: 28°C</span></li>
+                        <li class="log-item warning"><span class="time">10:15</span> <span class="msg">High vibration</span></li>
+                        <li class="log-item"><span class="time">09:00</span> <span class="msg">System boot OK</span></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </section>
 
     <section id="settings" class="view">
-        <div class="settings-container">
+        <div class="dash-glass-panel settings-panel">
             <h1>user_preferences</h1>
             <p class="sub-text">customize_your_interface</p>
-            <br><br>
+            <br>
 
             <div class="setting-row">
                 <div class="setting-label">color_theme</div>
@@ -122,24 +163,12 @@
             </div>
 
             <div class="setting-row">
-                <div class="setting-label">temperature_unit</div>
+                <div class="setting-label">temp_unit</div>
                 <div class="setting-options">
                     <button class="option-btn active" id="btn-c" onclick="setUnit('C')">celsius</button>
                     <button class="option-btn" id="btn-f" onclick="setUnit('F')">fahrenheit</button>
                 </div>
             </div>
 
-            <div class="setting-row">
-                <div class="setting-label">hive_identifier</div>
-                <input type="text" class="setting-input" value="hive_04_melipona">
-            </div>
-
-            <br><br>
-            <button class="text-btn" onclick="saveSettings()">> save_changes</button>
-            <p id="saveMsg" class="success-text hidden">settings_saved_successfully</p>
-        </div>
-    </section>
-
-    <script src="script.js"></script>
-</body>
-</html>
+            <br>
+            <button class="primary-btn
