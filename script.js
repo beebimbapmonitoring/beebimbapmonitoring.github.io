@@ -5,37 +5,30 @@ let myChart = null;
 
 // --- 1. LOGIN SYSTEM ---
 function attemptLogin() {
-    const u = document.getElementById('username').value;
-    const p = document.getElementById('password').value;
+    const u = document.getElementById('username').value.trim(); // .trim() removes spaces
+    const p = document.getElementById('password').value.trim();
 
-    // Hardcoded credentials for demo
-    if(u === 'admin' && p === '1234') {
+    // ANG BAGONG LOGIC:
+    // Check lang natin kung may laman (hindi empty string)
+    if(u !== "" && p !== "") {
+        
         isLoggedIn = true;
-        document.getElementById('login').style.display = 'none'; // Hide login
-        document.getElementById('mainNav').classList.remove('hidden'); // Show nav
-        navigate('home'); // Go to home
+        
+        // I-set ang pangalan sa Home screen base sa tinype na username
+        document.getElementById('userDisplay').innerText = u;
+
+        // Hide Login, Show Nav & Home
+        document.getElementById('login').style.display = 'none'; 
+        document.getElementById('mainNav').classList.remove('hidden'); 
+        navigate('home'); 
+        
     } else {
+        // Error kapag walang nilagay
         const err = document.getElementById('errorMsg');
+        err.innerText = "input_required"; // Palitan ang text ng error
         err.classList.remove('hidden');
         setTimeout(() => err.classList.add('hidden'), 2000);
     }
-}
-
-function performLogout() {
-    isLoggedIn = false;
-    document.getElementById('mainNav').classList.add('hidden');
-    // Hide all views
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-    
-    // Show login
-    const login = document.getElementById('login');
-    login.style.display = 'flex';
-    login.classList.add('active-view');
-    
-    // Clear fields
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
 }
 
 // --- 2. NAVIGATION ---
