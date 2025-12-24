@@ -1,128 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juBEES | Clean Monitor v7</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HiveMind | T. biroi Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800;900&family=Poppins:wght@300;400;600;800&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-    <div class="bg-layer"></div>
+<body class="theme-dark">
 
-    <section id="login" class="view active-view center-screen">
-        <div class="final-login-box">
-            <div class="brand-large"><i class="fas fa-bug"></i> juBEES</div>
-            <p class="sub-text">meliponini_system_v7</p>
-            <br>
-            <form onsubmit="event.preventDefault(); attemptLogin();">
-                <div class="input-container">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" placeholder="username" autocomplete="off">
-                </div>
-                <div class="input-container">
-                    <i class="fas fa-key"></i>
-                    <input type="password" id="password" placeholder="password">
-                </div>
-                <br>
-                <button type="submit" class="clean-btn">> login</button>
-            </form>
-            <p id="errorMsg" class="error-text hidden">please_fill_all_fields</p>
+    <div id="landing-view" class="landing-container">
+
+        <div class="landing-bg-layer">
+            <div class="honey-glow"></div>
+            <div id="landing-swarm"></div>
         </div>
-    </section>
 
-    <nav class="navbar hidden" id="mainNav">
-        <div class="brand-small">juBEES</div>
-        <ul class="nav-menu">
-            <li onclick="navigate('home')" id="nav-home">home</li>
-            <li onclick="navigate('dashboard')" id="nav-dash">monitor</li>
-            <li onclick="navigate('settings')" id="nav-settings">settings</li>
-            <li onclick="performLogout()" class="logout-link">logout</li>
-        </ul>
-    </nav>
+        <nav class="public-nav glass-panel">
+            <div class="brand-logo zesty-text"><i class="fas fa-archive bounce-icon"></i> HiveMind</div>
 
-    <section id="home" class="view center-screen">
-        <div class="home-content">
-            <p class="fade-in">access_granted :: <span id="userDisplay" class="highlight">admin</span></p>
-            <h1 id="typewriter" class="hero-title"></h1>
-            <div class="status-badge fade-in-delay"><span class="dot">●</span> SYSTEM_OPTIMAL</div>
-            <br><br>
-            <div class="fade-in-delay">
-                <button class="clean-btn outline" onclick="navigate('dashboard')">./launch_dashboard</button>
+            <div class="nav-links">
+                <a href="#hero" class="zesty-btn small-zesty">Home</a>
+                <a href="#bees" class="zesty-btn small-zesty">The "Kiyot"</a>
+                <a href="#capstone" class="zesty-btn small-zesty">Capstone</a>
             </div>
-        </div>
-    </section>
 
-    <section id="dashboard" class="view">
-        <div class="glass-panel">
-            <header class="dash-header">
-                <div class="hive-info">
-                    <h2>HIVE_04</h2> <span class="tag">Tetragonula biroi</span>
+            <button class="login-trigger-btn zesty-btn" onclick="goToLogin()">ADMIN LOGIN</button>
+        </nav>
+
+        <header id="hero" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Preserving the<br><span class="highlight zesty-highlight">Tetragonula biroi</span></h1>
+                    <p>A specialized IoT & ML monitoring system for the Philippines' native stingless bee. Protecting
+                        the colony without breaking the propolis seal.</p>
+                    <button class="cta-btn zesty-btn" onclick="document.getElementById('capstone').scrollIntoView()">
+                        VIEW ARCHITECTURE <i class="fas fa-arrow-down"></i>
+                    </button>
                 </div>
-                <div class="sys-info">
-                    <span><i class="fas fa-wifi"></i> ONLINE</span>
-                    <span><i class="fas fa-battery-full"></i> 98%</span>
-                    <span id="clock">12:00</span>
+
+                <div class="hero-image">
+                    <div id="bee-tracker" class="bee-wrapper">
+                        <div class="giant-floating-bee stingless-look">🐝</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="bees" class="info-section">
+            <h2 class="section-title zesty-text">The Native "Lukot" / "Kiyot"</h2>
+            <p class="section-subtitle">Stingless bees store honey in cerumen pots, not combs.</p>
+            <div class="info-grid">
+                <div class="info-card glass-panel pop-on-hover">
+                    <div class="card-icon" style="color: #2e7d32;"><i class="fas fa-leaf"></i></div>
+                    <h3>Forest Architects</h3>
+                    <p>They are major pollinators of Dipterocarp forests and fruit trees. Their small size allows them
+                        to enter flowers other bees cannot.</p>
+                </div>
+                <div class="info-card glass-panel pop-on-hover">
+                    <div class="card-icon" style="color: #f57f17;"><i class="fas fa-flask"></i></div>
+                    <h3>Pot Honey</h3>
+                    <p>Stored in egg-shaped pots made of beeswax and resin. This honey is more liquid, acidic, and rich
+                        in medicinal properties.</p>
+                </div>
+                <div class="info-card glass-panel pop-on-hover">
+                    <div class="card-icon" style="color: #0277bd;"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Resin Defense</h3>
+                    <p>Lacking a sting, they defend the colony by biting and sealing intruders in sticky resin
+                        (Propolis).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="capstone" class="project-section">
+            <div class="glass-panel project-card">
+                <div class="project-content">
+                    <span class="tag">CAPSTONE 2025-2026</span>
+                    <h2 class="zesty-text">Audio-Video Analysis for Colony Activity and Intrusion Alert for
+                        <em>Tetragonula biroi</em> Utilizing Machine-Based Learning</h2>
+
+                    <div class="project-grid">
+                        <div class="project-text">
+                            <h4><i class="fas fa-exclamation-triangle"></i> The Challenge</h4>
+                            <p>Manual inspection destroys the intricate resin structures (involucrum) that <em>T.
+                                    biroi</em> build to regulate heat. Breaking this seal stresses the colony.</p>
+                            <h4><i class="fas fa-microchip"></i> The Innovation</h4>
+                            <p>We use <strong>Edge Machine Learning</strong> to "listen" and "watch" the hive entrance.
+                                By analyzing flight patterns and buzz frequencies, we detect stress remotely.</p>
+                        </div>
+                        <div class="tech-stack">
+                            <h4>System Architecture</h4>
+                            <ul>
+                                <li><i class="fas fa-video"></i> <strong>Video Analysis:</strong> Computer vision for
+                                    traffic counting.</li>
+                                <li><i class="fas fa-microphone-alt"></i> <strong>Audio Analysis:</strong> ML
+                                    recognition of stress buzzing.</li>
+                                <li><i class="fas fa-microchip"></i> <strong>Edge ML:</strong> On-device intrusion
+                                    alerts.</li>
+                                <li><i class="fas fa-thermometer-half"></i> <strong>Env. Sensors:</strong> Monitoring
+                                    microclimate.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="team-credits">
+                        <h4><i class="fas fa-users"></i> The Proponents</h4>
+                        <div class="proponent-list-grid">
+                            <span>Aguinido, Marinelle P.</span><span>Barela, Danica Jane L.</span>
+                            <span>Espiritu, Glenda Theresa C.</span><span>Gironella, Juan Carlo C.</span>
+                            <span>Obumani, Mark Dennis B.</span><span>Rabonza, Stephen Dave P.</span>
+                        </div>
+                        <p class="school-info">BS Electronics Engineering • Academic Year 2025-2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="public-footer">
+            <p>© 2026 HiveMind Project</p>
+        </footer>
+    </div>
+
+    <div id="login-view" class="login-container hidden">
+        <button class="back-home-btn" onclick="backToHome()"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="login-card glass-panel">
+            <div class="floating-bee stingless-look">🐝</div>
+            <h2>HiveMind Login</h2>
+            <p>Keeper Access Only</p>
+            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="email-input"
+                    placeholder="keeper@gmail.com"></div>
+            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="password-input"
+                    placeholder="Password (hive123)"></div>
+            <p id="login-error" class="error-msg hidden">Access Denied</p>
+            <button class="login-btn zesty-btn" onclick="attemptLogin()">ENTER DASHBOARD</button>
+        </div>
+    </div>
+
+    <div id="dashboard-view" class="dashboard-container hidden">
+        <div class="organic-bg">
+            <div class="floating-pot p1"></div>
+            <div class="floating-pot p2"></div>
+            <div id="dashboard-swarm"></div>
+        </div>
+        <nav class="sidebar glass-panel">
+            <div class="brand"><i class="fas fa-archive"></i> HiveMind</div>
+            <div class="user-profile clickable-profile" onclick="switchTab('profile')">
+                <div class="user-avatar"><img id="sidebar-avatar"
+                        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User"></div>
+                <div class="user-info"><span id="sidebar-name">Admin</span><small id="sidebar-role">Head Keeper</small>
+                </div>
+                <div class="edit-icon"><i class="fas fa-pen"></i></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="active nav-item-dashboard" onclick="switchTab('dashboard')"><i class="fas fa-chart-line"></i>
+                    Dashboard</li>
+                <li class="nav-item-logs" onclick="switchTab('logs')"><i class="fas fa-clipboard-list"></i> Logs</li>
+                <li class="nav-item-settings" onclick="switchTab('settings')"><i class="fas fa-cog"></i> Settings</li>
+            </ul>
+            <ul class="nav-bottom">
+                <li onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="greeting-box">
+                    <h1 id="greeting-text">Hello! 👋</h1>
+                    <p class="subtitle" id="location-display">Colony Status Monitor</p>
+                </div>
+                <div class="header-actions">
+                    <button class="mobile-only-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+                    <div class="desktop-actions">
+                        <button class="action-btn" onclick="manualRefresh()"><i class="fas fa-sync-alt"></i></button>
+                        <button class="primary-btn zesty-btn" onclick="exportData()">Export CSV</button>
+                    </div>
                 </div>
             </header>
 
-            <div class="kpi-grid">
-                <div class="kpi-card active" onclick="switchSensor('temp', this)">
-                    <div class="icon"><i class="fas fa-temperature-low"></i></div>
-                    <div><small>TEMPERATURE</small><h3 id="tempDisplay">--</h3></div>
+            <section id="view-dashboard" class="view-section">
+                <button class="mobile-refresh-btn" onclick="manualRefresh()">Tap to Refresh Data</button>
+                <div class="cards-grid">
+                    <div class="stat-card glass-panel card-temp clickable-card" onclick="openSensorModal('temp')">
+                        <div class="icon-box"><i class="fas fa-temperature-high"></i></div>
+                        <div class="stat-info">
+                            <h3>Brood Temp</h3>
+                            <p id="temp-display">--</p><span class="badge">Optimal: 28-32°C</span>
+                        </div>
+                        <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel card-hum clickable-card" onclick="openSensorModal('humidity')">
+                        <div class="icon-box"><i class="fas fa-tint"></i></div>
+                        <div class="stat-info">
+                            <h3>Humidity</h3>
+                            <p id="hum-display">--</p><span class="badge">Optimal: 60-70%</span>
+                        </div>
+                        <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel card-weight clickable-card" onclick="openSensorModal('weight')">
+                        <div class="icon-box"><i class="fas fa-weight-hanging"></i></div>
+                        <div class="stat-info">
+                            <h3>Honey Pots</h3>
+                            <p id="weight-display">--</p><span class="badge">Accumulating</span>
+                        </div>
+                        <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel card-audio clickable-card" onclick="openSensorModal('audio')">
+                        <div class="icon-box"><i class="fas fa-microphone-alt"></i></div>
+                        <div class="stat-info">
+                            <h3>Audio ML</h3>
+                            <p id="audio-display">Normal</p><span class="badge">Stress Analysis</span>
+                        </div>
+                        <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="stat-card glass-panel card-cam clickable-card" onclick="openVideoModal()">
+                        <div class="icon-box"><i class="fas fa-video"></i></div>
+                        <div class="stat-info">
+                            <h3>Entrance Cam</h3>
+                            <p class="status-text">Active</p><span class="badge blink-red">● Live ML</span>
+                        </div>
+                        <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+                    </div>
                 </div>
-                <div class="kpi-card" onclick="switchSensor('humidity', this)">
-                    <div class="icon"><i class="fas fa-tint"></i></div>
-                    <div><small>HUMIDITY</small><h3>65%</h3></div>
+                <div class="chart-wrapper glass-panel">
+                    <div class="chart-header">
+                        <h3>Microclimate Trends</h3>
+                        <div class="live-indicator"><span class="blink"></span> Live</div>
+                    </div>
+                    <div class="canvas-container"><canvas id="hiveChart"></canvas></div>
                 </div>
-                <div class="kpi-card" onclick="switchSensor('weight', this)">
-                    <div class="icon"><i class="fas fa-weight-hanging"></i></div>
-                    <div><small>WEIGHT</small><h3>1.2kg</h3></div>
-                </div>
-            </div>
+            </section>
 
-            <div class="chart-section">
-                <div class="chart-header">
-                    <h4 id="chartTitle">LIVE ANALYTICS // TEMP</h4> <span class="live-dot">● LIVE</span>
+            <section id="view-logs" class="view-section hidden">
+                <div class="glass-panel content-pad">
+                    <h3>System Logs</h3>
+                    <div class="table-responsive">
+                        <table id="logs-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Event Type</th>
+                                    <th>ML Confidence</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="chart-wrapper">
-                    <canvas id="mainChart"></canvas>
-                </div>
-            </div>
+            </section>
 
-            <div class="logs-section">
-                <h4>EVENT_LOGS</h4>
-                <ul id="logStream">
-                    <li><span class="time">14:05</span> Motion detected at entrance</li>
-                </ul>
+            <section id="view-profile" class="view-section hidden">
+                <div class="glass-panel content-pad">
+                    <div class="profile-header">
+                        <h3>👤 Keeper Profile</h3><span class="badge-id">ID: #8821</span>
+                    </div>
+                    <div class="profile-edit-container">
+                        <div class="avatar-section"><label>Identity Avatar</label>
+                            <div class="avatar-selector"><img
+                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                                    onclick="selectAvatar(this)" class="avatar-option selected"><img
+                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka"
+                                    onclick="selectAvatar(this)" class="avatar-option"><img
+                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob"
+                                    onclick="selectAvatar(this)" class="avatar-option"><img
+                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Milo"
+                                    onclick="selectAvatar(this)" class="avatar-option"></div>
+                        </div>
+                        <div class="input-grid">
+                            <div class="field-group"><label>Display Name</label><input type="text" id="edit-name"
+                                    class="settings-input" placeholder="Enter Name"></div>
+                            <div class="field-group"><label>Role</label><input type="text" id="edit-role"
+                                    class="settings-input" placeholder="e.g. Keeper"></div>
+                        </div>
+                        <div class="field-group"><label>Apiary Location</label><input type="text" id="edit-location"
+                                class="settings-input" placeholder="e.g. Farm"></div>
+                        <button class="primary-btn zesty-btn full-width" onclick="saveProfile()">Update Profile</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-settings" class="view-section hidden">
+                <div class="glass-panel content-pad">
+                    <h3>🎨 Interface Theme</h3>
+                    <div class="theme-selector">
+                        <button class="theme-btn theme-dark-btn active" onclick="setTheme('theme-dark')">🌑
+                            Dark</button>
+                        <button class="theme-btn theme-light-btn" onclick="setTheme('theme-light')">☁️ Light</button>
+                        <button class="theme-btn theme-forest-btn" onclick="setTheme('theme-forest')">🍃 Forest</button>
+                    </div>
+                    <hr class="divider">
+                    <p class="section-desc">HiveMind v3.0 - Capstone Build</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="mobile-nav glass-panel hidden" id="mobile-nav-bar">
+        <div class="nav-item-dashboard active" onclick="switchTab('dashboard')"><i class="fas fa-home"></i></div>
+        <div class="nav-item-logs" onclick="switchTab('logs')"><i class="fas fa-list"></i></div>
+        <div class="nav-item-profile" onclick="switchTab('profile')"><img id="nav-mini-avatar"
+                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-mini-img"></div>
+        <div class="nav-item-settings" onclick="switchTab('settings')"><i class="fas fa-cog"></i></div>
+    </nav>
+
+    <div id="video-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel">
+            <button class="close-modal" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+            <div class="video-layout">
+                <div class="video-player">
+                    <div class="cam-overlay"><span class="cam-rec blink-red">● ML ANALYSIS</span><span
+                            id="cam-time">00:00:00</span></div>
+                    <div class="video-screen" id="main-video-screen"><i class="fas fa-play-circle play-icon"></i>
+                        <p id="video-status-text">LIVE FEED</p>
+                    </div>
+                </div>
+                <div class="video-logs">
+                    <h3>Detected Events</h3>
+                    <div class="log-list">
+                        <div class="log-item active" onclick="playVideo(this, 'LIVE FEED')"><span>Live</span></div>
+                        <div class="log-item warning" onclick="playVideo(this, 'Phorid Fly Detected')"><span>Phorid
+                                Fly</span></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="settings" class="view">
-        <div class="glass-card settings-card">
-            <h1>PREFERENCES</h1><br>
-            <div class="setting-group">
-                <label>THEME</label>
-                <div class="btn-row">
-                    <button class="clean-btn small active" onclick="setTheme('serika')">SERIKA</button>
-                    <button class="clean-btn small" onclick="setTheme('carbon')">CARBON</button>
-                    <button class="clean-btn small" onclick="setTheme('honey')">HONEY</button>
-                </div>
-            </div>
-            <div class="setting-group">
-                <label>UNITS</label>
-                <div class="btn-row">
-                    <button class="clean-btn small active" id="btn-c" onclick="setUnit('C')">CELSIUS</button>
-                    <button class="clean-btn small" id="btn-f" onclick="setUnit('F')">FAHRENHEIT</button>
+    <div id="sensor-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel sensor-modal-content">
+            <button class="close-modal" onclick="closeSensorModal()"><i class="fas fa-times"></i></button>
+            <div class="sensor-details">
+                <div class="sensor-icon-large" id="modal-sensor-icon"></div>
+                <h2 id="modal-sensor-title"></h2>
+                <h1 id="modal-sensor-value"></h1>
+                <p id="modal-sensor-desc"></p>
+                <div class="sensor-stats-grid">
+                    <div class="sensor-stat-item"><span>Status</span><strong style="color: #2ecc71">Normal</strong>
+                    </div>
+                    <div class="sensor-stat-item"><span>Updated</span><strong id="modal-sensor-time">Now</strong></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
